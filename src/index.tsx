@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
+import Title from './Title';
 import App from './App';
+import Footer from './Footer';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router basename={process.env.PUBLIC_URL}>
+      <Title />
+      <App />
+      <Footer />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root'),
 );
