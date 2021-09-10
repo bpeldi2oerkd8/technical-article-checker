@@ -1,9 +1,10 @@
 import React from 'react';
+import { Box, Typography } from '@material-ui/core';
 
 const Footer: React.FunctionComponent = () => {
   return (
-    <footer>
-      <p>
+    <Box p={1} textAlign="center" color="background.primary">
+      <Typography>
         This page is created by&nbsp;
         <a
           href="https://github.com/bpeldi2oerkd8"
@@ -13,8 +14,8 @@ const Footer: React.FunctionComponent = () => {
           bpeldi2oerkd8
         </a>
         .
-      </p>
-    </footer>
+      </Typography>
+    </Box>
   );
 };
 
