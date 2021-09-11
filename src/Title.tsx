@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx'; // 可変クラスのためのライブラリ
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -76,6 +76,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }),
       marginLeft: 0,
     },
+    link: {
+      textDecoration: 'none',
+      color: theme.palette.text.primary,
+    },
   }),
 );
 
@@ -84,8 +88,13 @@ const Title: React.FunctionComponent = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  // 参照する技術記事サイト
+  // 技術記事が掲載されているサイト
   const sites: string[] = ['Qiita', 'Zenn'];
+  // 各サイトへのリンク
+  let siteLinks: string[] = sites.slice();
+  siteLinks = siteLinks.map((value: string, index: number) => {
+    return index === 0 ? '/' : '/' + value.toLowerCase();
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,8 +124,6 @@ const Title: React.FunctionComponent = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6">技術記事チェッカー</Typography>
-          <Link to="/">Qiita</Link>
-          <Link to="/zenn">Zenn</Link>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -138,10 +145,16 @@ const Title: React.FunctionComponent = () => {
         </div>
         <Divider />
         <List>
-          {sites.map((text) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
+          {sites.map((siteName: string, index: number) => (
+            <RouterLink
+              to={siteLinks[index]}
+              className={classes.link}
+              key={siteName}
+            >
+              <ListItem button>
+                <ListItemText primary={siteName} />
+              </ListItem>
+            </RouterLink>
           ))}
         </List>
       </Drawer>
