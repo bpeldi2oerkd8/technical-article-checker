@@ -10,7 +10,7 @@ const Title: React.FunctionComponent = () => {
         <IconButton color="inherit" aria-label="open drawer" edge="start">
           <MenuIcon />
         </IconButton>
-        <Typography>技術記事チェッカー</Typography>
+        <Typography variant="h6">技術記事チェッカー</Typography>
         <Link to="/">Qiita</Link>
         <Link to="/zenn">Zenn</Link>
       </Toolbar>
