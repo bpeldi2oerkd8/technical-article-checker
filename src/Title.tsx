@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx'; // 可変クラスのためのライブラリ
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
@@ -7,13 +6,10 @@ import {
   Typography,
   IconButton,
   CssBaseline,
-  Box,
   Drawer,
 } from '@material-ui/core';
 import { Divider, List, ListItem, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {
   makeStyles,
   useTheme,
@@ -25,56 +21,22 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    appBar: {
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
+    root: {
+      display: 'flex',
     },
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+    drawer: {
+      [theme.breakpoints.up('sm')]: {
+        width: drawerWidth,
+        flexShrink: 0,
+      },
     },
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    hide: {
-      display: 'none',
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
+    // necessary for content to be below app bar
+    toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-    },
-    drawerHeader: {
-      display: 'flex',
-      alignItems: 'center',
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: 'flex-end',
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
-    },
-    contentShift: {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
     },
     link: {
       textDecoration: 'none',
@@ -86,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Title: React.FunctionComponent = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   // 技術記事が掲載されているサイト
   const sites: string[] = ['Qiita', 'Zenn'];
@@ -96,69 +58,70 @@ const Title: React.FunctionComponent = () => {
     return index === 0 ? '/' : '/' + value.toLowerCase();
   });
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const drawer = (
+    <div>
+      <div className={classes.toolbar} />
+      <Divider />
+      <List>
+        {sites.map((siteName: string, index: number) => (
+          <RouterLink
+            to={siteLinks[index]}
+            className={classes.link}
+            key={siteName}
+          >
+            <ListItem button>
+              <ListItemText primary={siteName} />
+            </ListItem>
+          </RouterLink>
+        ))}
+      </List>
+    </div>
+  );
 
   return (
-    <Box display="flex">
+    <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="sticky"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">技術記事チェッカー</Typography>
+          <Typography variant="h6" noWrap>
+            技術記事チェッカー
+          </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {sites.map((siteName: string, index: number) => (
-            <RouterLink
-              to={siteLinks[index]}
-              className={classes.link}
-              key={siteName}
-            >
-              <ListItem button>
-                <ListItemText primary={siteName} />
-              </ListItem>
-            </RouterLink>
-          ))}
-        </List>
-      </Drawer>
-    </Box>
+      <nav className={classes.drawer}>
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Drawer
+          variant="temporary"
+          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </nav>
+      <main>
+        <div className={classes.toolbar} />
+      </main>
+    </div>
   );
 };
 
