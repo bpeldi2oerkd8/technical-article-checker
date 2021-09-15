@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "prettier -w \"src/**/*.{ts,tsx}\" && eslint \"src/**/*.{ts,tsx}\" && stylelint \"src/**/*.css\""
+    "lint": "prettier -c \"src/**/*.{ts,tsx}\" && eslint \"src/**/*.{ts,tsx}\" && stylelint \"src/**/*.css\""
   },
   "browserslist": {
     "production": [
