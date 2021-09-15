@@ -72,6 +72,7 @@ const Title: React.FunctionComponent = () => {
             to={siteLinks[index]}
             className={classes.link}
             key={siteName}
+            onClick={handleDrawerToggle}
           >
             <ListItem button>
               <ListItemText primary={siteName} />
