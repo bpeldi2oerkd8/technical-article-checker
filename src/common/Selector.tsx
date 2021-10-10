@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Selector: React.FunctionComponent = () => {
-  const classes = useStyles();
-  const [lang, setLang] = React.useState('');
+type Props = {
+  lang: string;
+  handleChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
+};
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLang(event.target.value as string);
-  };
+const Selector: React.FunctionComponent<Props> = (props: Props) => {
+  const classes = useStyles();
 
   // 選択対象のプログラミング言語のリスト
   const languages: string[] = ['Python', 'JavaScript'];
@@ -39,13 +39,13 @@ const Selector: React.FunctionComponent = () => {
         <Select
           labelId="language-select-helper-label"
           id="language-select-helper"
-          value={lang}
-          onChange={handleChange}
+          value={props.lang}
+          onChange={props.handleChange}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {languages.map((language: string, index: number) => (
+          {languages.map((language: string) => (
             <MenuItem value={language} key={language}>
               {language}
             </MenuItem>

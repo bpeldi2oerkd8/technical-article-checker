@@ -4,13 +4,18 @@ import Box from '@material-ui/core/Box';
 
 const Qiita: React.FunctionComponent = () => {
   // const data = JSON.parse();
+  const [lang, setLang] = React.useState('');
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setLang(event.target.value as string);
+  };
 
   return (
     <Box>
       <Box textAlign="center">
         <h2>Qiita</h2>
       </Box>
-      <Selector />
+      <Selector lang={lang} handleChange={handleChange} />
     </Box>
   );
 };
