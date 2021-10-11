@@ -1,5 +1,6 @@
 import React from 'react';
 import Selector from '../common/Selector';
+import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
 
 const Qiita: React.FunctionComponent = () => {
@@ -16,6 +17,7 @@ const Qiita: React.FunctionComponent = () => {
         <h2>Qiita</h2>
       </Box>
       <Selector lang={lang} handleChange={handleChange} />
+      <ArticleList />
     </Box>
   );
 };

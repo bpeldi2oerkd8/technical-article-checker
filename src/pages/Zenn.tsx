@@ -1,5 +1,6 @@
 import React from 'react';
 import Selector from '../common/Selector';
+import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
 
 const Zenn: React.FunctionComponent = () => {
@@ -15,6 +16,7 @@ const Zenn: React.FunctionComponent = () => {
         <h2>Zenn</h2>
       </Box>
       <Selector lang={lang} handleChange={handleChange} />
+      <ArticleList />
     </Box>
   );
 };
