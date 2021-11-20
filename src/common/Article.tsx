@@ -9,35 +9,43 @@ import Button from '@material-ui/core/Button';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Box from '@material-ui/core/Box';
 
-const Article: React.FunctionComponent = () => {
+type ArticleData = {
+  articleId: string;
+  userIcon: string;
+  userId: string;
+  updatedAt: string;
+  title: string;
+  body: string;
+  url: string;
+};
+
+type Props = {
+  data: ArticleData;
+};
+
+const Article: React.FunctionComponent<Props> = (props: Props) => {
+  const data = props.data;
+
   return (
     <Card variant="outlined">
       <CardHeader
-        avatar={
-          <Avatar
-            alt="ImageIcon"
-            src="https://s3-ap-northeast-1.amazonaws.com/qiita-image-store/0/737344/8ea286bf47d13f6f33f3ac840c3e03595511fd1f/x_large.png?1600828067%22"
-          />
-        }
-        title="AKpirion" //user.id
-        subheader="2021-10-11に更新" //updated_at
+        avatar={<Avatar alt="ImageIcon" src={data.userIcon} />}
+        title={data.userId} //user.id
+        subheader={data.updatedAt + 'に更新'} //updated_at
       />
       <CardContent>
         {/* title */}
         <Box mb={1}>
-          <Typography variant="h6">ABC139 C - Lower を解いた</Typography>
+          <Typography variant="h6">{data.title}</Typography>
         </Box>
         {/* body */}
-        <Typography>
-          問題文の通りに書いてみた MaximalValue.py N = int(input()) A = [0]*N B
-          = list(map(int,input().split())) for i ...
-        </Typography>
+        <Typography>{data.body}</Typography>
       </CardContent>
       <CardActions>
         <Button
           variant="contained"
           color="primary"
-          href="https://qiita.com/AKpirion/items/e42e433491c9ff2b7dd1" //url
+          href={data.url} //url
           target="_blank"
           rel="noopener noreferrer"
         >

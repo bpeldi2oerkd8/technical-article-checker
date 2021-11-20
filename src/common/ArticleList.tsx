@@ -17,8 +17,24 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ArticleList: React.FunctionComponent = () => {
+type ArticleData = {
+  articleId: string;
+  userIcon: string;
+  userId: string;
+  updatedAt: string;
+  title: string;
+  body: string;
+  url: string;
+};
+
+type Props = {
+  articleData: ArticleData[];
+};
+
+const ArticleList: React.FunctionComponent<Props> = (props: Props) => {
   const classes = useStyles();
+  const articleData = props.articleData;
+  console.log(articleData.length);
 
   return (
     <Box my={2}>
@@ -27,24 +43,12 @@ const ArticleList: React.FunctionComponent = () => {
       </Box>
       <div className={classes.root}>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Article />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Article />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Article />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Article />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Article />
-          </Grid>
-          <Grid item xs={12} sm={6} lg={4}>
-            <Article />
-          </Grid>
+          {articleData.length > 0 &&
+            articleData.map((data: ArticleData) => (
+              <Grid key={data.articleId} item xs={12} sm={6} lg={4}>
+                <Article data={data} />
+              </Grid>
+            ))}
         </Grid>
       </div>
     </Box>
