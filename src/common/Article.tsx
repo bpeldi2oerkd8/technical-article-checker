@@ -8,16 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Box from '@material-ui/core/Box';
-
-type ArticleData = {
-  articleId: string;
-  userIcon: string;
-  userId: string;
-  updatedAt: string;
-  title: string;
-  body: string;
-  url: string;
-};
+import type { ArticleData } from '../type/ArticleData';
 
 type Props = {
   data: ArticleData;
@@ -39,7 +30,7 @@ const Article: React.FunctionComponent<Props> = (props: Props) => {
           <Typography variant="h6">{data.title}</Typography>
         </Box>
         {/* body */}
-        <Typography>{data.body}</Typography>
+        {data.body}
       </CardContent>
       <CardActions>
         <Button

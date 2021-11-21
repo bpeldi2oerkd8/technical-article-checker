@@ -4,6 +4,7 @@ import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import type { ArticleData } from '../type/ArticleData';
+import Typography from '@material-ui/core/Typography';
 
 type Tag = {
   name: string;
@@ -79,12 +80,10 @@ const getQiitaData = async (apiUrl: string, accessToken: string) => {
           userId: article.user.id,
           updatedAt: article.updated_at,
           title: article.title,
-          body: article.rendered_body,
+          body: convertBody(article.body),
           url: article.url,
         };
       });
-      console.log('aData[0]');
-      console.log(aData[0]);
       return aData;
     })
     .catch(() => {
@@ -93,6 +92,18 @@ const getQiitaData = async (apiUrl: string, accessToken: string) => {
     });
 
   return articleData;
+};
+
+// bodyの変換（最初の？文字分表示）
+const convertBody = (body: string) => {
+  let convertedBody: JSX.Element[];
+  // 改行の置き換え
+  convertedBody = body.split('\n').map((para, index) => {
+    return <Typography key={index}>{para}</Typography>;
+  });
+  // 3行分表示
+  convertedBody = convertedBody.slice(0, 3);
+  return convertedBody;
 };
 
 const Qiita: React.FunctionComponent = () => {
@@ -120,7 +131,6 @@ const Qiita: React.FunctionComponent = () => {
       const accessToken = process.env.REACT_APP_QIITA_ACCESS_TOKEN
         ? process.env.REACT_APP_QIITA_ACCESS_TOKEN
         : '';
-      console.log('apiUrl: ' + apiUrl);
 
       // APIによるデータの取得
       const aData = await getQiitaData(apiUrl, accessToken);
