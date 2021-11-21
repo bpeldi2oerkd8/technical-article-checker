@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Article from '../common/Article';
+import type { ArticleData } from '../type/ArticleData';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,16 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-type ArticleData = {
-  articleId: string;
-  userIcon: string;
-  userId: string;
-  updatedAt: string;
-  title: string;
-  body: string;
-  url: string;
-};
 
 type Props = {
   articleData: ArticleData[];

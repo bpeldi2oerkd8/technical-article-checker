@@ -2,16 +2,7 @@ import React from 'react';
 import Selector from '../common/Selector';
 import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
-
-type ArticleData = {
-  articleId: string;
-  userIcon: string;
-  userId: string;
-  updatedAt: string;
-  title: string;
-  body: string;
-  url: string;
-};
+import type { ArticleData } from '../type/ArticleData';
 
 const Zenn: React.FunctionComponent = () => {
   const [lang, setLang] = React.useState('');

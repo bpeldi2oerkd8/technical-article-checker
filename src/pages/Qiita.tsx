@@ -3,6 +3,7 @@ import Selector from '../common/Selector';
 import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
+import type { ArticleData } from '../type/ArticleData';
 
 type Tag = {
   name: string;
@@ -23,7 +24,7 @@ type TeamMemberShip = {
 };
 
 type ApiResponse = {
-  render_body: string;
+  rendered_body: string;
   body: string;
   coediting: boolean;
   comment_count: number;
@@ -59,40 +60,9 @@ type ApiResponse = {
   team_membership: TeamMemberShip | null;
 };
 
-type ArticleData = {
-  articleId: string;
-  userIcon: string;
-  userId: string;
-  updatedAt: string;
-  title: string;
-  body: string;
-  url: string;
-};
-
-const Qiita: React.FunctionComponent = () => {
-  const [lang, setLang] = React.useState('');
-
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLang(event.target.value as string);
-  };
-
-  const baseApiUrl = 'https://qiita.com/api/v2/items?query=tag';
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7); // 1週間前
-  const from =
-    oneWeekAgo.getFullYear() +
-    '-' +
-    (oneWeekAgo.getMonth() + 1) +
-    '-' +
-    oneWeekAgo.getDate();
-  const apiUrl = baseApiUrl + lang + '+created%3A%3E' + from;
-  const accessToken = process.env.REACT_APP_QIITA_ACCESS_TOKEN
-    ? process.env.REACT_APP_QIITA_ACCESS_TOKEN
-    : '';
-
-  let articleData: ArticleData[] = [];
-  // APIによるデータの取得
-  axios
+// Qiita APIからデータの取得
+const getQiitaData = async (apiUrl: string, accessToken: string) => {
+  const articleData: ArticleData[] = await axios
     .get<ApiResponse[]>(apiUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -100,21 +70,63 @@ const Qiita: React.FunctionComponent = () => {
     })
     .then((res) => {
       const resData = res.data;
-      articleData = resData.map((article) => {
+      console.log('resData');
+      console.log(resData[0]);
+      const aData: ArticleData[] = resData.map((article) => {
         return {
           articleId: article.id,
           userIcon: article.user.profile_image_url,
           userId: article.user.id,
           updatedAt: article.updated_at,
           title: article.title,
-          body: article.render_body,
+          body: article.rendered_body,
           url: article.url,
         };
       });
+      console.log('aData[0]');
+      console.log(aData[0]);
+      return aData;
     })
     .catch(() => {
-      articleData = [];
+      console.log('failed.');
+      return [];
     });
+
+  return articleData;
+};
+
+const Qiita: React.FunctionComponent = () => {
+  const [lang, setLang] = React.useState('');
+  const [articleData, setArticleData] = React.useState<ArticleData[]>([]);
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setLang(event.target.value as string);
+  };
+
+  React.useEffect(() => {
+    (async () => {
+      const baseApiUrl = 'https://qiita.com/api/v2/items?query=tag%3A';
+
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7); // 1週間前
+      const from =
+        oneWeekAgo.getFullYear() +
+        '-' +
+        (oneWeekAgo.getMonth() + 1) +
+        '-' +
+        oneWeekAgo.getDate();
+
+      const apiUrl = baseApiUrl + lang + '+created%3A%3E' + from;
+      const accessToken = process.env.REACT_APP_QIITA_ACCESS_TOKEN
+        ? process.env.REACT_APP_QIITA_ACCESS_TOKEN
+        : '';
+      console.log('apiUrl: ' + apiUrl);
+
+      // APIによるデータの取得
+      const aData = await getQiitaData(apiUrl, accessToken);
+      setArticleData(aData as ArticleData[]);
+    })();
+  }, [setArticleData, lang]);
 
   return (
     <Box>
