@@ -16,7 +16,8 @@ const Zenn: React.FunctionComponent = () => {
   return (
     <Box>
       <Box textAlign="center">
-        <h2>Zenn</h2>
+        <h2>Zenn (Beta版)</h2>
+        <p>Zennから公式のAPIが提供されていないため、Beta版</p>
       </Box>
       <Selector lang={lang} handleChange={handleChange} />
       <ArticleList articleData={articleData} />
