@@ -71,14 +71,12 @@ const getQiitaData = async (apiUrl: string, accessToken: string) => {
     })
     .then((res) => {
       const resData = res.data;
-      console.log('resData');
-      console.log(resData[0]);
       const aData: ArticleData[] = resData.map((article) => {
         return {
           articleId: article.id,
           userIcon: article.user.profile_image_url,
           userId: article.user.id,
-          updatedAt: article.updated_at,
+          updatedAt: convertUpdatedAt(article.updated_at),
           title: article.title,
           body: convertBody(article.body),
           url: article.url,
@@ -94,7 +92,15 @@ const getQiitaData = async (apiUrl: string, accessToken: string) => {
   return articleData;
 };
 
-// bodyの変換（最初の？文字分表示）
+// 日付フォーマットの変更（YYYY/MM/DD hh:mm:ss）
+const convertUpdatedAt = (updatedAt: string) => {
+  updatedAt = updatedAt.replace(/-/g, '/');
+  updatedAt = updatedAt.replace(/T/g, ' ');
+  updatedAt = updatedAt.replace(/\+09:00/g, '');
+  return updatedAt;
+};
+
+// bodyの変換（最初の3行分表示）
 const convertBody = (body: string) => {
   let convertedBody: JSX.Element[];
   // 改行の置き換え
@@ -116,7 +122,7 @@ const Qiita: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     (async () => {
-      const baseApiUrl = 'https://qiita.com/api/v2/items?query=tag%3A';
+      const baseApiUrl = 'https://qiita.com/api/v2/items';
 
       const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7); // 1週間前
@@ -127,7 +133,10 @@ const Qiita: React.FunctionComponent = () => {
         '-' +
         oneWeekAgo.getDate();
 
-      const apiUrl = baseApiUrl + lang + '+created%3A%3E' + from;
+      const apiUrl = lang
+        ? baseApiUrl + '?query=tag%3A' + lang + '+updated%3A%3E' + from
+        : baseApiUrl;
+
       const accessToken = process.env.REACT_APP_QIITA_ACCESS_TOKEN
         ? process.env.REACT_APP_QIITA_ACCESS_TOKEN
         : '';

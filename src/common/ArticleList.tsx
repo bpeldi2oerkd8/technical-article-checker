@@ -25,7 +25,6 @@ type Props = {
 const ArticleList: React.FunctionComponent<Props> = (props: Props) => {
   const classes = useStyles();
   const articleData = props.articleData;
-  console.log(articleData.length);
 
   return (
     <Box my={2}>
