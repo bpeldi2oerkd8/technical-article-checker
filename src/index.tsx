@@ -8,13 +8,13 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Router basename={process.env.PUBLIC_URL}>
       <Title />
       <App />
       <Footer />
     </Router>
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root'),
 );
 
