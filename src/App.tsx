@@ -1,12 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import './App.css';
+// import './App.css';
 import Qiita from './pages/Qiita';
 import Zenn from './pages/Zenn';
+import Container from '@material-ui/core/Container';
 
 const App: React.FunctionComponent = () => {
   return (
-    <div className="App">
+    <Container maxWidth="lg">
       <Switch>
         <Route exact path="/">
           <Qiita />
@@ -15,7 +16,7 @@ const App: React.FunctionComponent = () => {
           <Zenn />
         </Route>
       </Switch>
-    </div>
+    </Container>
   );
 };
 
