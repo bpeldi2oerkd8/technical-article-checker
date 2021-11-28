@@ -63,31 +63,59 @@ type ApiResponse = {
 
 // Qiita APIからデータの取得
 const getQiitaData = async (apiUrl: string, accessToken: string) => {
-  const articleData: ArticleData[] = await axios
-    .get<ApiResponse[]>(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    .then((res) => {
-      const resData = res.data;
-      const aData: ArticleData[] = resData.map((article) => {
-        return {
-          articleId: article.id,
-          userIcon: article.user.profile_image_url,
-          userId: article.user.id,
-          updatedAt: convertUpdatedAt(article.updated_at),
-          title: article.title,
-          body: convertBody(article.body),
-          url: article.url,
-        };
+  let articleData: ArticleData[];
+
+  if (accessToken) {
+    // APIキーがある場合
+    articleData = await axios
+      .get<ApiResponse[]>(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((res) => {
+        const resData = res.data;
+        const aData: ArticleData[] = resData.map((article) => {
+          return {
+            articleId: article.id,
+            userIcon: article.user.profile_image_url,
+            userId: article.user.id,
+            updatedAt: convertUpdatedAt(article.updated_at),
+            title: article.title,
+            body: convertBody(article.body),
+            url: article.url,
+          };
+        });
+        return aData;
+      })
+      .catch(() => {
+        console.log('failed.');
+        return [];
       });
-      return aData;
-    })
-    .catch(() => {
-      console.log('failed.');
-      return [];
-    });
+  } else {
+    // APIキーがない場合
+    articleData = await axios
+      .get<ApiResponse[]>(apiUrl)
+      .then((res) => {
+        const resData = res.data;
+        const aData: ArticleData[] = resData.map((article) => {
+          return {
+            articleId: article.id,
+            userIcon: article.user.profile_image_url,
+            userId: article.user.id,
+            updatedAt: convertUpdatedAt(article.updated_at),
+            title: article.title,
+            body: convertBody(article.body),
+            url: article.url,
+          };
+        });
+        return aData;
+      })
+      .catch(() => {
+        console.log('failed.');
+        return [];
+      });
+  }
 
   return articleData;
 };
