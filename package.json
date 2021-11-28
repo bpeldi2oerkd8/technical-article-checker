@@ -1,6 +1,6 @@
 {
   "name": "technical-article-checker",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "homepage": "https://bpeldi2oerkd8.github.io/technical-article-checker",
   "dependencies": {
@@ -13,6 +13,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "axios": "^0.24.0",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -28,7 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "prettier -c \"src/**/*.{ts,tsx}\" && eslint \"src/**/*.{ts,tsx}\" && stylelint \"src/**/*.css\""
+    "lint": "prettier -w \"src/**/*.{ts,tsx}\" && eslint \"src/**/*.{ts,tsx}\" && stylelint \"src/**/*.css\" && git add ."
   },
   "browserslist": {
     "production": [
