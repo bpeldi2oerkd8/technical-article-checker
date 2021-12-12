@@ -82,7 +82,7 @@ const getQiitaData = async (apiUrl: string, accessToken: string) => {
             userId: article.user.id,
             updatedAt: convertUpdatedAt(article.updated_at),
             title: article.title,
-            body: convertBody(article.body),
+            body: article.body,
             url: article.url,
           };
         });
@@ -105,7 +105,7 @@ const getQiitaData = async (apiUrl: string, accessToken: string) => {
             userId: article.user.id,
             updatedAt: convertUpdatedAt(article.updated_at),
             title: article.title,
-            body: convertBody(article.body),
+            body: article.body,
             url: article.url,
           };
         });
