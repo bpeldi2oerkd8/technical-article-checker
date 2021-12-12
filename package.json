@@ -1,6 +1,6 @@
 {
   "name": "technical-article-checker",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "https://bpeldi2oerkd8.github.io/technical-article-checker",
   "dependencies": {
