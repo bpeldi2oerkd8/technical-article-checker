@@ -5,10 +5,10 @@ import Box from '@material-ui/core/Box';
 import type { ArticleData } from '../type/ArticleData';
 
 const Zenn: React.FunctionComponent = () => {
-  const [lang, setLang] = React.useState('');
+  const [topic, setTopic] = React.useState('');
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLang(event.target.value as string);
+    setTopic(event.target.value as string);
   };
 
   const articleData: ArticleData[] = [];
@@ -19,7 +19,7 @@ const Zenn: React.FunctionComponent = () => {
         <h2>Zenn (Beta版)</h2>
         <p>Zennから公式のAPIが提供されていないため、Beta版</p>
       </Box>
-      <Selector lang={lang} handleChange={handleChange} />
+      <Selector topic={topic} handleChange={handleChange} />
       <ArticleList articleData={articleData} />
     </Box>
   );
