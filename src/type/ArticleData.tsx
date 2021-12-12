@@ -4,6 +4,6 @@ export type ArticleData = {
   userId: string;
   updatedAt: string;
   title: string;
-  body: JSX.Element[];
+  body: string;
   url: string;
 };

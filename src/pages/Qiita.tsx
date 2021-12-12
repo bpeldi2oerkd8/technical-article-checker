@@ -4,7 +4,7 @@ import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import type { ArticleData } from '../type/ArticleData';
-import Typography from '@material-ui/core/Typography';
+import removeMarkdown from 'remove-markdown';
 
 type Tag = {
   name: string;
@@ -128,15 +128,9 @@ const convertUpdatedAt = (updatedAt: string) => {
   return updatedAt;
 };
 
-// bodyの変換（最初の3行分表示）
+// bodyの変換（Markdown→plain text）
 const convertBody = (body: string) => {
-  let convertedBody: JSX.Element[];
-  // 改行の置き換え
-  convertedBody = body.split('\n').map((para, index) => {
-    return <Typography key={index}>{para}</Typography>;
-  });
-  // 3行分表示
-  convertedBody = convertedBody.slice(0, 3);
+  const convertedBody = removeMarkdown(body);
   return convertedBody;
 };
 
