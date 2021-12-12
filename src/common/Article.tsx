@@ -30,7 +30,7 @@ const Article: React.FunctionComponent<Props> = (props: Props) => {
           <Typography variant="h6">{data.title}</Typography>
         </Box>
         {/* body */}
-        {data.body}
+        <Typography noWrap>{data.body}</Typography>
       </CardContent>
       <CardActions>
         <Button

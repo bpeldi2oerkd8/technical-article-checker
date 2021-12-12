@@ -4,7 +4,7 @@ import ArticleList from '../common/ArticleList';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import type { ArticleData } from '../type/ArticleData';
-import Typography from '@material-ui/core/Typography';
+import removeMarkdown from 'remove-markdown';
 
 type Tag = {
   name: string;
@@ -128,24 +128,19 @@ const convertUpdatedAt = (updatedAt: string) => {
   return updatedAt;
 };
 
-// bodyの変換（最初の3行分表示）
+// bodyの変換（Markdown→plain text）
 const convertBody = (body: string) => {
-  let convertedBody: JSX.Element[];
-  // 改行の置き換え
-  convertedBody = body.split('\n').map((para, index) => {
-    return <Typography key={index}>{para}</Typography>;
-  });
-  // 3行分表示
-  convertedBody = convertedBody.slice(0, 3);
+  let convertedBody = removeMarkdown(body);
+  convertedBody = convertedBody.slice(0, 50);
   return convertedBody;
 };
 
 const Qiita: React.FunctionComponent = () => {
-  const [lang, setLang] = React.useState('');
+  const [topic, setTopic] = React.useState('');
   const [articleData, setArticleData] = React.useState<ArticleData[]>([]);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLang(event.target.value as string);
+    setTopic(event.target.value as string);
   };
 
   React.useEffect(() => {
@@ -161,8 +156,8 @@ const Qiita: React.FunctionComponent = () => {
         '-' +
         oneWeekAgo.getDate();
 
-      const apiUrl = lang
-        ? baseApiUrl + '?query=tag%3A' + lang + '+updated%3A%3E' + from
+      const apiUrl = topic
+        ? baseApiUrl + '?query=tag%3A' + topic + '+updated%3A%3E' + from
         : baseApiUrl;
 
       const accessToken = process.env.REACT_APP_QIITA_ACCESS_TOKEN
@@ -173,14 +168,14 @@ const Qiita: React.FunctionComponent = () => {
       const aData = await getQiitaData(apiUrl, accessToken);
       setArticleData(aData as ArticleData[]);
     })();
-  }, [setArticleData, lang]);
+  }, [setArticleData, topic]);
 
   return (
     <Box>
       <Box textAlign="center">
         <h2>Qiita</h2>
       </Box>
-      <Selector lang={lang} handleChange={handleChange} />
+      <Selector topic={topic} handleChange={handleChange} />
       <ArticleList articleData={articleData} />
     </Box>
   );

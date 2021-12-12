@@ -1,6 +1,6 @@
 {
   "name": "technical-article-checker",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "https://bpeldi2oerkd8.github.io/technical-article-checker",
   "dependencies": {
@@ -13,12 +13,14 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/remove-markdown": "^0.3.1",
     "axios": "^0.24.0",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "remove-markdown": "^0.3.0",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },

@@ -20,38 +20,47 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-  lang: string;
+  topic: string;
   handleChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
 };
 
 const Selector: React.FunctionComponent<Props> = (props: Props) => {
   const classes = useStyles();
 
-  // 選択対象のプログラミング言語のリスト
-  const languages: string[] = ['Python', 'JavaScript'];
+  // 選択対象のトピックのリスト
+  const topics: string[] = [
+    'Python',
+    'JavaScript',
+    'TypeScript',
+    'PHP',
+    'Java',
+    'Docker',
+    'AWS',
+    'Go',
+    'Rust',
+    'Flutter',
+  ];
 
   return (
     <Box p={2} textAlign="right">
       <FormControl className={classes.formControl}>
-        <InputLabel id="language-select-helper-label">
-          プログラミング言語
-        </InputLabel>
+        <InputLabel id="topic-select-helper-label">トピック</InputLabel>
         <Select
-          labelId="language-select-helper-label"
-          id="language-select-helper"
-          value={props.lang}
+          labelId="topic-select-helper-label"
+          id="topic-select-helper"
+          value={props.topic}
           onChange={props.handleChange}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {languages.map((language: string) => (
-            <MenuItem value={language} key={language}>
-              {language}
+          {topics.map((topic: string) => (
+            <MenuItem value={topic} key={topic}>
+              {topic}
             </MenuItem>
           ))}
         </Select>
-        <FormHelperText>言語を選択</FormHelperText>
+        <FormHelperText>トピックを選択</FormHelperText>
       </FormControl>
     </Box>
   );
