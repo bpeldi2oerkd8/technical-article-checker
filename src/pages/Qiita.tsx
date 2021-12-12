@@ -130,7 +130,8 @@ const convertUpdatedAt = (updatedAt: string) => {
 
 // bodyの変換（Markdown→plain text）
 const convertBody = (body: string) => {
-  const convertedBody = removeMarkdown(body);
+  let convertedBody = removeMarkdown(body);
+  convertedBody = convertedBody.slice(0, 50);
   return convertedBody;
 };
 
